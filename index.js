@@ -27,13 +27,11 @@ const hideAndShow = document.querySelector(".hideAndShow");
 
 closeNav.addEventListener("click", () => {
   hideAndShow.classList.toggle("hideAndShow");
-  if (closeNav.classList.contains("fa-window-close" )
-  ) {
-    closeNav.classList.remove("fa-window-close")
-    closeNav.classList.add("fa-bars")
-    
+  if (closeNav.classList.contains("fa-window-close")) {
+    closeNav.classList.remove("fa-window-close");
+    closeNav.classList.add("fa-bars");
   } else {
-    closeNav.classList.add("fa-window-close")
+    closeNav.classList.add("fa-window-close");
   }
 });
 
@@ -71,7 +69,9 @@ async function getMeal(mealID) {
 
 function displayMeal(meal) {
   let tagsAll = ``;
-  meal.strTags?.split(",").forEach((tag) => {tagsAll += `<li class="my-3 mx-1 p-1 alert alert-danger rounded">${tag}</li>`;});
+  meal.strTags?.split(",").forEach((tag) => {
+    tagsAll += `<li class="my-3 mx-1 p-1 alert alert-danger rounded">${tag}</li>`;
+  });
 
   let recipes = "";
   for (let i = 1; i <= 20; i++) {
@@ -180,14 +180,17 @@ function displayCategoriesx(meals) {
 }
 //=============================
 async function allArea() {
-  let meals = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?a=list`)
-  meals = await meals.json()
-  displayArea(meals.meals)
+  let meals = await fetch(
+    `https://www.themealdb.com/api/json/v1/1/list.php?a=list`
+  );
+  meals = await meals.json();
+  displayArea(meals.meals);
 }
 
 function displayArea(meals) {
-  let e = ""
-  for (var i = 0; i < meals.length; i++) e += `
+  let e = "";
+  for (var i = 0; i < meals.length; i++)
+    e += `
   <div class="col-md-6 col-lg-3 my-3   ">
       <div class="  rounded position-relative">
           <div onclick=(filterByArea('${meals[i].strArea}')) class=" " style="cursor: pointer;">
@@ -195,55 +198,64 @@ function displayArea(meals) {
               <h2 class="text-white text-center">${meals[i].strArea}</h2>
           </div>
       </div>
-  </div>`
+  </div>`;
   homeDisplay.innerHTML = e;
-
 }
 
 async function filterByArea(area) {
-  let meals = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`)
-  meals = await meals.json()
-  displayMeals(meals.meals.slice(0, 20))
+  let meals = await fetch(
+    `https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`
+  );
+  meals = await meals.json();
+  displayMeals(meals.meals.slice(0, 20));
 }
 
 //========================
 
 async function dataIngredients() {
-  let meals = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?i=list`)
-  meals = await meals.json()
-  displayIngredients(meals.meals.slice(0, 20))
+  let meals = await fetch(
+    `https://www.themealdb.com/api/json/v1/1/list.php?i=list`
+  );
+  meals = await meals.json();
+  displayIngredients(meals.meals.slice(0, 20));
 }
 function displayIngredients(ingredients) {
   console.log(ingredients);
-  let e = ""
+  let e = "";
   for (var i = 0; i < ingredients.length; i++)
     e += `
   <div class="col-md-6 col-lg-3 my-3 myM  shadow">
-      <div onclick="getMainIngredient('${ingredients[i].strIngredient}')" style="cursor: pointer;" class="movie shadow rounded position-relative">
+      <div onclick="getMainIngredient('${
+        ingredients[i].strIngredient
+      }')" style="cursor: pointer;" class="movie shadow rounded position-relative">
           <div class=" ">
           <i class="fas fa-pizza-slice text-success fa-10x"></i>
-                        <h2 class="text-white">${ingredients[i].strIngredient}</h2>
-              <p class="text-white">${ingredients[i].strDescription.split(" ").splice(0,20).join(" ")}</p>
+                        <h2 class="text-white">${
+                          ingredients[i].strIngredient
+                        }</h2>
+              <p class="text-white">${ingredients[i].strDescription
+                .split(" ")
+                .splice(0, 20)
+                .join(" ")}</p>
           </div>
       </div>
-  </div>`
-  homeDisplay.innerHTML = e
-
+  </div>`;
+  homeDisplay.innerHTML = e;
 }
 
 async function getMainIngredient(mealName) {
-  let meal = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${mealName}`)
-  meal = await meal.json()
-  displayMeals(meal.meals)
+  let meal = await fetch(
+    `https://www.themealdb.com/api/json/v1/1/filter.php?i=${mealName}`
+  );
+  meal = await meal.json();
+  displayMeals(meal.meals);
 }
 //==============================
 function contactUs() {
-  let x = document.querySelector('.contactUs')
-  x.classList.remove('d-none')
+  let x = document.querySelector(".contactUs");
+  x.classList.remove("d-none");
   homeDisplay.innerHTML = x.string;
-
 }
-
 
 const userName = document.getElementById("name");
 const userEmail = document.getElementById("email");
@@ -258,106 +270,112 @@ const userAgeAlert = document.getElementById("agealert");
 const userpasswordAlert = document.getElementById("passwordalert");
 const userRepasswordAlert = document.getElementById("repasswordalert");
 
-
 function validation(x) {
   if (x === "name") {
     if (userNameValid()) {
-          userName.classList.remove("is-invalid")
-          userName.classList.add("is-valid")
-          userNameAlert.classList.replace("d-block", "d-none")
-
-      } else {
-          userName.classList.replace("is-valid", "is-invalid")
-          userNameAlert.classList.replace("d-none", "d-block")
-      }
+      userName.classList.remove("is-invalid");
+      userName.classList.add("is-valid");
+      userNameAlert.classList.replace("d-block", "d-none");
+    } else {
+      userName.classList.replace("is-valid", "is-invalid");
+      userNameAlert.classList.replace("d-none", "d-block");
+    }
   }
 
   if (x === "email") {
     if (userEmailValid()) {
-        console.log(userEmail);
-          userEmail.classList.remove("is-invalid")
-          userEmail.classList.add("is-valid")
-          userEmailAlert.classList.replace("d-block", "d-none")
-      } else {
-          userEmail.classList.replace("is-valid", "is-invalid")
-          userEmailAlert.classList.replace("d-none", "d-block")
-      }
+      console.log(userEmail);
+      userEmail.classList.remove("is-invalid");
+      userEmail.classList.add("is-valid");
+      userEmailAlert.classList.replace("d-block", "d-none");
+    } else {
+      userEmail.classList.replace("is-valid", "is-invalid");
+      userEmailAlert.classList.replace("d-none", "d-block");
+    }
   }
 
   if (x === "phone") {
-      if (userPhoneValid()) {
-          userPhone.classList.remove("is-invalid")
-          userPhone.classList.add("is-valid")
-          userPhoneAlert.classList.replace("d-block", "d-none")
-      } else {
-          userPhone.classList.replace("is-valid", "is-invalid")
-          userPhoneAlert.classList.replace("d-none", "d-block")
-      }
+    if (userPhoneValid()) {
+      userPhone.classList.remove("is-invalid");
+      userPhone.classList.add("is-valid");
+      userPhoneAlert.classList.replace("d-block", "d-none");
+    } else {
+      userPhone.classList.replace("is-valid", "is-invalid");
+      userPhoneAlert.classList.replace("d-none", "d-block");
+    }
   }
 
   if (x === "age") {
-      if (userAgeValid()) {
-          userAge.classList.remove("is-invalid")
-          userAge.classList.add("is-valid")
-          userAgeAlert.classList.replace("d-block", "d-none")
-      } else {
-          userAge.classList.replace("is-valid", "is-invalid")
-          userAgeAlert.classList.replace("d-none", "d-block")
-      }
+    if (userAgeValid()) {
+      userAge.classList.remove("is-invalid");
+      userAge.classList.add("is-valid");
+      userAgeAlert.classList.replace("d-block", "d-none");
+    } else {
+      userAge.classList.replace("is-valid", "is-invalid");
+      userAgeAlert.classList.replace("d-none", "d-block");
+    }
   }
 
   if (x === "password") {
-      if (userPasswordValid()) {
-          userPassword.classList.remove("is-invalid")
-          userPassword.classList.add("is-valid")
-          userpasswordAlert.classList.replace("d-block", "d-none")
-      } else {
-          userPassword.classList.replace("is-valid", "is-invalid")
-          userpasswordAlert.classList.replace("d-none", "d-block")
-      }
+    if (userPasswordValid()) {
+      userPassword.classList.remove("is-invalid");
+      userPassword.classList.add("is-valid");
+      userpasswordAlert.classList.replace("d-block", "d-none");
+    } else {
+      userPassword.classList.replace("is-valid", "is-invalid");
+      userpasswordAlert.classList.replace("d-none", "d-block");
+    }
   }
 
   if (x === "repassword") {
-      if (userRePasswordValid()) {
-          userRePassword.classList.remove("is-invalid")
-          userRePassword.classList.add("is-valid")
-          userRepasswordAlert.classList.replace("d-block", "d-none")
-      } else {
-          userRePassword.classList.replace("is-valid", "is-invalid")
-          userRepasswordAlert.classList.replace("d-none", "d-block")
-      }
+    if (userRePasswordValid()) {
+      userRePassword.classList.remove("is-invalid");
+      userRePassword.classList.add("is-valid");
+      userRepasswordAlert.classList.replace("d-block", "d-none");
+    } else {
+      userRePassword.classList.replace("is-valid", "is-invalid");
+      userRepasswordAlert.classList.replace("d-none", "d-block");
+    }
   }
 
-  if(userNameValid() && userEmailValid() && userPhoneValid() && userAgeValid() && userPasswordValid() && userRePasswordValid()){
-      document.getElementById("submitBtn").removeAttribute("disabled")
-  }else{
-      document.getElementById("submitBtn").setAttribute("disabled","true")
+  if (
+    userNameValid() &&
+    userEmailValid() &&
+    userPhoneValid() &&
+    userAgeValid() &&
+    userPasswordValid() &&
+    userRePasswordValid()
+  ) {
+    document.getElementById("submitBtn").removeAttribute("disabled");
+  } else {
+    document.getElementById("submitBtn").setAttribute("disabled", "true");
   }
-
 }
 
 function userNameValid() {
-  return /^[a-zA-Z ]+$/.test(userName.value)
+  return /^[a-zA-Z ]+$/.test(userName.value);
 }
 
 function userEmailValid() {
-  return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(userEmail.value)
+  return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    userEmail.value
+  );
 }
 
 function userPhoneValid() {
-  return /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(userPhone.value)
+  return /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(
+    userPhone.value
+  );
 }
 
 function userAgeValid() {
-  return /^[1-9][0-9]?$|^100$/.test(userAge.value)
+  return /^[1-9][0-9]?$|^100$/.test(userAge.value);
 }
 
 function userPasswordValid() {
-  return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(userPassword.value)
+  return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(userPassword.value);
 }
 
 function userRePasswordValid() {
-  return userPassword.value == userRePassword.value
+  return userPassword.value == userRePassword.value;
 }
-
-
